@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quadratic Plotter</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Adding Chart.js -->
+</head>
+<body>
+    <h1>Quadratic Plotter</h1>
+    <form id="quadratic-form">
+        <label for="a">Coefficient a:</label>
+        <input id="a" type="text"><br>
+
+        <label for="b">Coefficient b:</label>
+        <input id="b" type="text"><br>
+
+        <label for="c">Coefficient c:</label>
+        <input id="c" type="text"><br>
+
+        <button id="plot" type="button">Plot</button>
+    </form>
+
+    <h3>Graph:</h3>
+    <!-- The canvas element where the graph will be displayed -->
+    <canvas id="quadraticCanvas" width="400" height="400"></canvas>
+
+    <script>
+        document.getElementById("plot").addEventListener("click", function() {
+            var a = parseFloat(document.getElementById("a").value);
+            var b = parseFloat(document.getElementById("b").value);
+            var c = parseFloat(document.getElementById("c").value);
+
+            // Getting the canvas element to draw the graph
+            var ctx = document.getElementById('quadraticCanvas').getContext('2d');
+
+            // Clear the canvas for every new plot
+            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+
+            // Create data for the plot (calculate y for various x values)
+            var data = [];
+            var xValues = [];
+            var yValues = [];
+            for (var x = -10; x <= 10; x += 0.1) {
+                var y = a * x * x + b * x + c;
+                xValues.push(x);
+                yValues.push(y);
+            }
+
+            // Plot the quadratic graph using Chart.js
+            var chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: xValues,
+                    datasets: [{
+                        label: 'Quadratic Equation: ' + a + 'x² + ' + b + 'x + ' + c,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 2,
+                        fill: false,
+                        data: yValues
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+
+            // Show alert with the equation
+            alert("Plotting quadratic equation: " + a + "x² + " + b + "x + " + c);
+        });
+    </script>
+</body>
+</html>
